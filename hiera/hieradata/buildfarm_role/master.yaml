@@ -1,4 +1,4 @@
-user::admin::name: admin
+user::admin::name: dynamicx
 user::admin::password_hash: 'dynamicx'
 
 credentials::jenkins-slave::username: jenkins-agent

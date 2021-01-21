@@ -7,13 +7,11 @@ master::ip: 192.168.1.126
 repo::ip: 192.168.1.165
 timezone: 'China/Beijing'
 ssh_keys:
-  'jenkins-agent@my-builtfarm':
+  '1656257449@qq.com':
       type: ssh-rsa
-      key: AAAAB3NzaC1yc2EAAAADAQABAAABgQDVSkH0v8GEDasD453Fp4a5FNLph5Zbgrf+Ck23nmKgSWIs+hDMb1WqZRT8hysG1JNky9O02PErzY2AxoMY5GAUJR+o8rGY6CgczH9bC+X0+RPnhtHRZyu4sR8p+mmrd7CQfq2gnxYI1aQuE3zZmbn8jH6VYg0u0KpjbPNpzoROY0Ln7r7kN3qxarEBhDCRxok1U77hANp8dwkg2hxz0Gw9dl0zu6gbN6V6Vh7n79j6IkvuzcvArJgYobk62M2W1WrExMqUPR2Dob2rga0lOu6F4yn5vOAnJHxfRqgTD3qk35JTfPwnRbjuig6WkdYRmHbDf6gI0Uqz2UwIm2Fg5OwQtfkxDD9nIK/mMvDQG5lY7gO368dFVItiUW4hc31dchsgO4NxoVaQizzwPRCXeUPnsK4TGe1o6AZBttaBjdwAef+hvFUlkNP7MOuMI7GXXbvtj2atN0sxkcuN0jtDmqNdQtkJ4qujS2M8XZHWRqwl9jMZxHw4kMR/i2QCtuBK1+s= 1656257449@qq.com
-      user: jenkins-agent
+      key: AAAAB3NzaC1yc2EAAAADAQABAAABgQDVSkH0v8GEDasD453Fp4a5FNLph5Zbgrf+Ck23nmKgSWIs+hDMb1WqZRT8hysG1JNky9O02PErzY2AxoMY5GAUJR+o8rGY6CgczH9bC+X0+RPnhtHRZyu4sR8p+mmrd7CQfq2gnxYI1aQuE3zZmbn8jH6VYg0u0KpjbPNpzoROY0Ln7r7kN3qxarEBhDCRxok1U77hANp8dwkg2hxz0Gw9dl0zu6gbN6V6Vh7n79j6IkvuzcvArJgYobk62M2W1WrExMqUPR2Dob2rga0lOu6F4yn5vOAnJHxfRqgTD3qk35JTfPwnRbjuig6WkdYRmHbDf6gI0Uqz2UwIm2Fg5OwQtfkxDD9nIK/mMvDQG5lY7gO368dFVItiUW4hc31dchsgO4NxoVaQizzwPRCXeUPnsK4TGe1o6AZBttaBjdwAef+hvFUlkNP7MOuMI7GXXbvtj2atN0sxkcuN0jtDmqNdQtkJ4qujS2M8XZHWRqwl9jMZxHw4kMR/i2QCtuBK1+s=
+      user: 1656257449@qq.com
       require: User[jenkins-agent]
-ssh_host_keys:
-  repo: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDR+CfJXglwwEsK05lwpTDDICZNxbJ6efemlb3P4lqPEEV11n4n9M0qu7PU+su4Rs3G03JbPiv0V9HJq0UDgaidjuEyd9P7rwvbtp1LLlbcp/Ts1sYq4czFxufuy1epdBc5Fx0VO+hmp9wa3y9W+5LVrpMVE217eYzn6/z86fnumjkdpsPlhJFDCDWAS4vKnDUbgboKeMbphmqFWNxHHvf/qnXioWF4061D97J74aCo0vFFthyMepmMxKiX4pAizd9urp+Y/aX1BUkrkVXFr7bQQNvQTgV89hRXVWRyL6EKQtwj3KhZdFDzgDxFFimMa3rhrwLYZGBnuh2+jnrDtuztPp0xpZkMHclRbA77gHSVtTRjLWTDVxZqLr9dy/q6ambcfnbz1ieO7DELntNblw5HtrzTgydRdM4IilcRXO7q/NYCYhzX8GIDdqu2zogu24yQDETH7fXC12cZwK+kBsAfi412PRce6wHoaG3Gu6/RJsXjrucrJ73TAqXcuC5ex3c= 1656257449@qq.com
 
 autoreconfigure: false
 autoreconfigure::command: 'bash -c "cd /root/buildfarm_deployment_config && git fetch origin xenialize && git reset --hard origin/xenialize && ./reconfigure.bash"'
