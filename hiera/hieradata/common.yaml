@@ -1,101 +1,20 @@
-# Jenkins username and password the agents should use to authenticate with the client.
-# Both master and repo machines have specific agents: agent_on_master and building_repostory respectively
-# That make use of this configuration as well.
-# If you use the [GitHub authentication plugin](https://plugins.jenkins.io/github-oauth/) as the authentication
-# provider for Jenkins you will want to register it as a [GitHub application](https://github.com/settings/applications/new)
-# and set this to a GitHub username and access token.
-jenkins::slave::ui_user: 'admin'
-jenkins::slave::ui_pass: 'changeme'
-# The version of the swarm client plugin should be the same between the jenkins master and agents on all hosts.
-# Note that versions above 3.0 require use of a modified version of the docker puppet module
+jenkins::slave::ui_user: 'dynamicx'
+jenkins::slave::ui_pass: 'dynamicx'
 jenkins::swarm_version: &jenkins_swarm_version '3.14'
 jenkins::slave::version: *jenkins_swarm_version
-
-# This should be unchanged so that the masterurl always uses the hosts entry to reach master.
 jenkins::slave::masterurl: 'http://master:8080'
-
-master::ip: 172.30.1.145
-repo::ip: 172.30.1.69
-
-# change this to match the timezone that this buildfarm is located in.
-timezone: 'America/Los_Angeles'
-
-# SSH keys to be added to each host.
-# The jenkins-agent public key is one you'll want to generate specifically for your deployment.
-# An example:
-#    $ ssh-keygen -m PEM -t rsa -b 4096 -C "jenkins-agent@my-buildfarm" -f buildfarm_deployment_rsa
-# Then copy the type and key in buildfarm_deployment_rsa.pub into the jenkins-agent@my-buildfarm key field below.
-# The user field should remain jenkins-agent so it can be used to authenticate with the jenkins-agent user on the repo host.
-#
-# The contents of the private key in the example above buildfarm_deployment_rsa
-# should be copied to the `jenkins::private_ssh_key` field of hiera/hieradata/buildfarm_role/master.yaml
-# where it will be added via ssh-agent to running jenkins jobs on all agents.
+master::ip: 192.168.1.126
+repo::ip: 192.168.1.165
+timezone: 'China/Beijing'
 ssh_keys:
-  # Using the `buildfarm_deployment_rsa.pub` in the above example
-  # you'll split the file contentsinto three different components separated by spaces:
-  # * type: always ssh-rsa for rsa keys but different for other key types.
-  # * public key value: The verbatim text of your public key base64-encoded.
-  #   Depending on the key length this may be very long and include one or two trailing `=` of padding.
-  # * comment: a plaintext "comment" which is generally used as a label identifying the key.
-  # For example consider the key below:
-  #     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCuIjV8RI7QOay95BAOuv9NlaKlm0xMfD9Q12ynKPElW+1cYhOmdmqrRqavbYxD9v2wB4hRl7VDsJak0w21UakyfKAZjhhmiMUA1yaQtJCKvw5RFbM6O/QmPNAnQDaVR2X1tRW5DVvbO2Z7ppQIHD3Ln3t5yYI/fwOgfBIsgr09Pw== jenkins-agent@my-buildfarm
-  # * The type is `ssh-rsa`.
-  # * The key value is `AAAAB3NzaC1yc2EAAAADAQABAAAAgQCuIjV8RI7QOay95BAOuv9NlaKlm0xMfD9Q12ynKPElW+1cYhOmdmqrRqavbYxD9v2wB4hRl7VDsJak0w21UakyfKAZjhhmiMUA1yaQtJCKvw5RFbM6O/QmPNAnQDaVR2X1tRW5DVvbO2Z7ppQIHD3Ln3t5yYI/fwOgfBIsgr09Pw==`.
-  # * The comment is `jenkins-agent@my-buildfarm`.
-  #
-  # Use the comment as the key name
-  'jenkins-agent@my-buildfarm':
-      type: REPLACE_WITH_AGENT_SSH_KEY_TYPE
-      key: REPLACE_WITH_AGENT_SSH_KEY
+  'jenkins-agent@my-builtfarm':
+      type: ssh-rsa
+      key: AAAAB3NzaC1yc2EAAAADAQABAAABgQDVSkH0v8GEDasD453Fp4a5FNLph5Zbgrf+Ck23nmKgSWIs+hDMb1WqZRT8hysG1JNky9O02PErzY2AxoMY5GAUJR+o8rGY6CgczH9bC+X0+RPnhtHRZyu4sR8p+mmrd7CQfq2gnxYI1aQuE3zZmbn8jH6VYg0u0KpjbPNpzoROY0Ln7r7kN3qxarEBhDCRxok1U77hANp8dwkg2hxz0Gw9dl0zu6gbN6V6Vh7n79j6IkvuzcvArJgYobk62M2W1WrExMqUPR2Dob2rga0lOu6F4yn5vOAnJHxfRqgTD3qk35JTfPwnRbjuig6WkdYRmHbDf6gI0Uqz2UwIm2Fg5OwQtfkxDD9nIK/mMvDQG5lY7gO368dFVItiUW4hc31dchsgO4NxoVaQizzwPRCXeUPnsK4TGe1o6AZBttaBjdwAef+hvFUlkNP7MOuMI7GXXbvtj2atN0sxkcuN0jtDmqNdQtkJ4qujS2M8XZHWRqwl9jMZxHw4kMR/i2QCtuBK1+s= 1656257449@qq.com
       user: jenkins-agent
       require: User[jenkins-agent]
-    ## If you wish to add keys for administrative access you can do so as well.
-    ## Additional keys will not be accessible to jenkins agents without additional configuraiton.
-    #'adminuser@my-buildfarm':
-    #    key: REPLACE_WITH_YOUR_ADMIN_SSH_PUBLIC_KEY
-    #    type: REPLACE_WITH_YOUR_ADMIN_SSH_KEY_TYPE
-    #   user: root
-
-# Known hosts to add to the jenkins-agent user.
-# Necessary to avoid build failures requiring interactive approval of a new
-# host.
-# You should definitely add the host key for your `repo` machine and any
-# other machines you will connect to during builds.
-# Assuming you can access your repo host via ssh from your dev workstation, the command:
-#     ssh repo -T cat /etc/ssh/ssh_host_ed25519_key.pub
-# will print your ed25519 host key which you can paste below
 ssh_host_keys:
-  repo: repo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+bpD1Hf9LB+VFN6V6xdRsTi05gPHd0l7LhWbDZpAQM
+  repo: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDR+CfJXglwwEsK05lwpTDDICZNxbJ6efemlb3P4lqPEEV11n4n9M0qu7PU+su4Rs3G03JbPiv0V9HJq0UDgaidjuEyd9P7rwvbtp1LLlbcp/Ts1sYq4czFxufuy1epdBc5Fx0VO+hmp9wa3y9W+5LVrpMVE217eYzn6/z86fnumjkdpsPlhJFDCDWAS4vKnDUbgboKeMbphmqFWNxHHvf/qnXioWF4061D97J74aCo0vFFthyMepmMxKiX4pAizd9urp+Y/aX1BUkrkVXFr7bQQNvQTgV89hRXVWRyL6EKQtwj3KhZdFDzgDxFFimMa3rhrwLYZGBnuh2+jnrDtuztPp0xpZkMHclRbA77gHSVtTRjLWTDVxZqLr9dy/q6ambcfnbz1ieO7DELntNblw5HtrzTgydRdM4IilcRXO7q/NYCYhzX8GIDdqu2zogu24yQDETH7fXC12cZwK+kBsAfi412PRce6wHoaG3Gu6/RJsXjrucrJ73TAqXcuC5ex3c= 1656257449@qq.com
 
-# if `autoreconfigure` is true this will set a cron task to re-run puppet periodically.
-# Do not autoreconfigure your master machine during normal running, doing so will overwrite
-# any configuration changes made since provisioning.
 autoreconfigure: false
-# Pay special attention to the Git branch name that appears twice in the invocation below.
 autoreconfigure::command: 'bash -c "cd /root/buildfarm_deployment_config && git fetch origin xenialize && git reset --hard origin/xenialize && ./reconfigure.bash"'
-
-# This docker option is being removed from the upstream puppetlabs-docker module.
-# It isn't required on Ubuntu Xenial and causes an error when deploying to AWS with the default AWS kernel.
-#
-# By the time our project is able to move to the new puppet module (requires puppet >= 4.0) this option will probably
-# be removed.
-# https://github.com/puppetlabs/puppetlabs-docker/issues/38
 docker::manage_kernel: false
-
-# Unless you have explicit needs with the docker version
-# The values below should not be changed.
-docker::package_name: docker-ce
-docker::package_source_location: https://download.docker.com/linux/ubuntu
-docker::package_key_source: https://download.docker.com/linux/ubuntu/gpg
-docker::package_key: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-docker::package_release: xenial
-docker::package_repos: stable
-docker::service_overrides_template: agent_files/docker-service-overrides.conf.erb
-
-# Classes to be pulled in via hiera_include classes.
-#classes:
-    # Enables the New Relic sysmon daemon.
-    # A license key / api key is required to use it.
-    #- nrsysmond
-# License key required for nrsysmond class above
-# nrsysmond::license_key: xxxyyyyzzzz

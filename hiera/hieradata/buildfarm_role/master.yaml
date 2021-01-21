@@ -1,28 +1,12 @@
 user::admin::name: admin
-user::admin::password_hash: '#jbcrypt:$2a$10$vmmqzRmcDHj1t9Ajgq5edekPD8cbpD./pBSGcYzia.OsIroOKjghm'
+user::admin::password_hash: 'dynamicx'
 
 credentials::jenkins-slave::username: jenkins-agent
 credentials::jenkins-slave::id: 1e7d4696-7fd4-4bc6-8c87-ebc7b6ce16e5
 credentials::jenkins-slave::passphrase: 4lRsx/NwfEndwUlcWOOnYg==
-
-# Uncomment below to increase the memory available for Jenkins
-# This is highly recommended for larger deployments
-# Don't use more than 75% of your RAM for Jenkins
-# Used in modules/jenkins_files/templates/etc_default_jenkins.erb
 jenkins_java_args: '-XX:MaxPermSize=512m -Xmx20g'
-
-# Used in modules/jenkins_files/templates/nodeMonitors.xml.erb
 jenkins::nodeMonitor::minimum_disk_space: 50G
-
-# Jenkins component module parameters.
-# The Jenkins team recommends that production deployments use the latest LTS version of Jenkins.
 jenkins::lts: true
-# Depending on your needs, you may wish to pin to a specific Jenkins release.
-# In light of https://github.com/ros-infrastructure/buildfarm_deployment/issues/160 it is
-# unlikely that puppet will be run multiple times on a master host, but if you do re-run puppet
-# on master omitting an explicit version may cause Jenkins to update before you have a chance
-# to review the changelog.
-#jenkins::version: '2.138.3'
 jenkins::slave::executors: 1
 jenkins::slave::install_java: false
 jenkins::slave::labels: agent_on_master
@@ -30,49 +14,44 @@ jenkins::slave::slave_mode: exclusive
 jenkins::slave::slave_name: agent_on_master
 
 jenkins::private_ssh_key: |
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEpQIBAAKCAQEAtjTmkbHWaqk6wsDUe+wECKsAD2JA34i9Truz4v6mlvUu1FNG
-    NSgEOpFoYCXPUbToW2Shh2xU6ki0+Nt+U5Jj75WW1dmyvGVYgZqkN6/LwzIQv/qf
-    RHPUj/LI7+iXCBFjsuc1z5wdzpxx1l5r2T+O64yWNJe+he9X2bd75b8o8+yK4pFC
-    5rinMqxPs7pZm0k7XxmYcUET8WQzv0Yjnpgj7GKObv61DI1h/gpBCNLMEJTOkCL4
-    1nX2LTcEE/cqOdzFxcuY6HYVuGDjp3ChOETDiPS5ruoxNBpnZkhL+POkeKLeolmp
-    8doZP+Os5Zl9ZEihljm0XR+ex/8SAMb8Pj4k3QIDAQABAoIBAQCKBgbHRS0EvU86
-    6nHLsdzYaBjyjl5QNrgY5U1+XaL6ZZ7kznQ3nimd6Dpl4x5qaZ0+ZjuKZ4DnvM4C
-    WdsXGaTEf8+0DWY9GpRyER/m4y96nPldRE/Tvd6+cI7QVaPbQ7j/c/AqZbuaoJ4H
-    Yp1WA7STMHs0OeLkeItW7IxZXHZ8V2LhZeCCGy3UYlHYeSQ5K0NE/Ry3MH1iySIs
-    V0XvGgrNaT+Os1DXBtKCUQC8PaT1z9qq53qAceOhj8h1lrr/NubCgAyJHfL57ry1
-    KkeEyp+yTePqyIX/tBwN8BKLdVvCFp3VnxRWE3E0qvXKtVm8MRHR3C9mSxQrKMsz
-    PdjEhvkBAoGBAODDHrpv/Q2xglvHcegCZNte9WDNsadJJcurWf7KuBg79gbXK8Sw
-    PKMSMIwwQlcY3x4ciav3rde5INZBgpdN1BqGtE5EHt/rqhkBrOraJP4KlgqQnVdn
-    SBAFvkrr7RRiV2U4icD1ZRL0mHNawSlcPTZ9oP++U+AaCAnJVTE2PDEdAoGBAM+H
-    rzTMQG3bKAND1P5xfjm0zSjnqEwGVXOgTcHRmeqOOu2pzkT2n6TzrkBbWXc78rhv
-    a9UTz2+QjIszhb9goBkfGF5+enMwksOikUWjfCZPNFeLmPQD34Hko/hmh4n1b1lm
-    XOG8M6R3q7kmS6dRdyfG4TDR6oMQDzRWHFJ7tTbBAoGASkw1vCuI2x3ymaQ0Yx1n
-    eZzKQFW+hC4J8GmUNkWM1XX8vgYi0cHwSXeZ1L2fMGtoVevZFp+pN8ZatHizUpDH
-    rH0a3URncF3WvK1xG7FAyTl2n8duO5ZInANKBDo5BKP9f9hQsRhtcPap7nfxolp7
-    YaflsKSZ1VrFjXagUsQ64YECgYEAhDzRR7Ne2qFrPalbb0aiR+MNV6NFeiwPBz5+
-    TaJhkTRQGGC7LvZ3g4RC5H9Q4skwQJW/AGc/JrfU1l5eOzQ2z8sgnBW7sOqimkZc
-    iyNBWKffkmlBbTuKkBpA4WdztlTOPwka5jwmLAaVRcVBL7yZUJ9JnvIjnJ//EDpO
-    kcCCGAECgYEA1wiLyDJ/5OuKFRyE5Y1MJJJBg3M49YWxZl3RtVzaTHl3WBUbL52I
-    SRbOij6xH8URigzwKGV+KubshUC5P3TQxc6AkUpIRM6iWBpz1yzb8o5PdrTQ4VVp
-    QhbS+sZ+JcyNMAHEOkHkEN/eS930FnCyeLQwYEwJAkiYl7vkVuXXzAA=
-    -----END RSA PRIVATE KEY-----
-
-# Optional customization urls for uploading docs.
-# These should match the credentials in the ros_buildfarm_config doc-build.yaml.
-# upload::docs::host: repo
-# upload::docs::user: jenkins-agent
-# upload::docs::root: '/var/repos/docs'
-
-### GitHub pull-request builder settings
-#
-# Used in modules/jenkins_files/templates/com.cloudbees.jenkins.GitHubPushTrigger.xml.erb
-#
-# A GitHub username and token are required.
-# TODO (Steven!) what permissions on the token?
+----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
 jenkins::github::username: ros-pull-request-builder
 jenkins::github::token: somegithubtoken
-#
-# default value of https://api.github.com can be overridden for GitHub Enterprise.
-# jenkins::github::api_url: 'https://api.github.com'
 
